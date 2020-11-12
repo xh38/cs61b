@@ -51,5 +51,36 @@ public class Planet{
 		return force_y;
 	}
 
+	public double calcNetForceExertedByX(Planet[] p){
+		int N = p.length;
+		int i = 0;
+		double net_force_x = 0;
+		while(i<N){
+			if(!this.equals(p[i])){
+				net_force_x += this.calcForceExertedByX(p[i]);
+			}
+			i++;
+		}
+		return net_force_x;
+	}
 
+	public double calcNetForceExertedByY(Planet[] p){
+		int N = p.length;
+		int i = 0;
+		double net_force_y = 0;
+		while(i<N){
+			if (!this.equals(p[i])){
+				net_force_y += this.calcForceExertedByY(p[i]);
+			}
+			i++;
+		}
+		return net_force_y;
+	}
+
+	public void update(double t,double f_x,double f_y){
+		this.xxVel += f_x * t / this.mass;
+		this.yyVel += f_y * t / this.mass;
+		this.xxPos += this.xxVel * t;
+		this.yyPos += this.yyVel * t;
+	}
 }
