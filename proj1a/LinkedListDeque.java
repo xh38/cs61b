@@ -1,4 +1,4 @@
-public class LinkedListDeque<T>{
+public class LinkedListDeque<T> {
 
     private class Node {
         private Node prev;
@@ -12,7 +12,7 @@ public class LinkedListDeque<T>{
         }
 
         private T recget(int index) {
-            if (index == 0){
+            if (index == 0) {
                 return item;
             }
             return this.next.recget(index - 1);
@@ -20,8 +20,8 @@ public class LinkedListDeque<T>{
 
     }
 
-    public Node sentinel;
-    public int size;
+    private Node sentinel;
+    private int size;
 
     public LinkedListDeque() {
         sentinel = new Node(null);
@@ -75,7 +75,7 @@ public class LinkedListDeque<T>{
 
     public void printDeque() {
         Node pointer = sentinel;
-        while(!pointer.next.equals(sentinel)) {
+        while (!pointer.next.equals(sentinel)) {
             System.out.print(pointer.item + " ");
             pointer = pointer.next;
         }
@@ -117,6 +117,6 @@ public class LinkedListDeque<T>{
         if (index == 0) {
             return nownode.item;
         }
-        return nownode.next.recget(index -1);
+        return nownode.next.recget(index - 1);
     }
 }
