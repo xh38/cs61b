@@ -11,6 +11,13 @@ public class LinkedListDeque<T>{
             next = null;
         }
 
+        private T recget(int index) {
+            if (index == 0){
+                return item;
+            }
+            return this.next.recget(index - 1);
+        }
+
     }
 
     public Node sentinel;
@@ -60,7 +67,7 @@ public class LinkedListDeque<T>{
 
     public boolean isEmpty() {
         boolean isempty = false;
-        if(size == 0) {
+        if (size == 0) {
             isempty = true;
         }
         return isempty;
@@ -69,7 +76,7 @@ public class LinkedListDeque<T>{
     public void printDeque() {
         Node pointer = sentinel;
         while(!pointer.next.equals(sentinel)) {
-            System.out.print(pointer.item.toString() + " ");
+            System.out.print(pointer.item + " ");
             pointer = pointer.next;
         }
         System.out.println();
@@ -94,7 +101,7 @@ public class LinkedListDeque<T>{
     public T get(int index) {
         int i = 0;
         Node tempnode = sentinel;
-        while(i < index){
+        while (i < index){
             tempnode = tempnode.next;
             i++;
         }
@@ -105,4 +112,11 @@ public class LinkedListDeque<T>{
         return size;
     }
 
+    public T getRecursive(int index) {
+        Node nownode = sentinel.next;
+        if (index == 0) {
+            return nownode.item;
+        }
+        return nownode.next.recget(index -1);
+    }
 }

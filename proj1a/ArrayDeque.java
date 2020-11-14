@@ -12,10 +12,10 @@ public class ArrayDeque <T> {
     }
 
     private int getrightnumber(int index) {
-        if(index < 0) {
+        if (index < 0) {
             index += Item.length;
         }
-        if(index> Item.length-1) {
+        if (index> Item.length-1) {
             index -= Item.length;
         }
         return index;
@@ -37,7 +37,7 @@ public class ArrayDeque <T> {
 
     public boolean isEmpty() {
         boolean isempty = false;
-        if(size == 0) {
+        if (size == 0) {
             isempty = true;
         }
         return isempty;
@@ -64,13 +64,13 @@ public class ArrayDeque <T> {
     public T get(int index) {
         index = getrightnumber(index + first + 1);
         T getitem = Item[index];
-        return  getitem;
+        return getitem;
     }
 
     public void printDeque() {
         int index = 0;
-        while(index < size-1) {
-            System.out.print(get(index).toString() + " ");
+        while (index < size - 1) {
+            System.out.print(get(index) + " ");
             index++;
         }
     }
