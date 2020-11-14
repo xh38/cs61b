@@ -1,11 +1,11 @@
 public class LinkedListDeque<T>{
 
     private class Node {
-        public Node prev;
-        public Node next;
-        public T item;
+        private Node prev;
+        private Node next;
+        private T item;
 
-        public Node(T i){
+        public Node(T i) {
             item = i;
             prev = null;
             next = null;
@@ -16,14 +16,14 @@ public class LinkedListDeque<T>{
     public Node sentinel;
     public int size;
 
-    public LinkedListDeque(){
+    public LinkedListDeque() {
         sentinel = new Node(null);
         sentinel.next = sentinel;
         sentinel.prev = sentinel;
         size = 0;
     }
 
-    public void addFirst(T item){
+    public void addFirst(T item) {
         Node newnode = new Node(item);
         /** Newnode's prev should be the sentinel and it's next shou-
          * ld be the node that usd to be the head
@@ -40,7 +40,7 @@ public class LinkedListDeque<T>{
         size++;
     }
 
-    public void addLast(T item){
+    public void addLast(T item) {
         Node newnode = new Node(item);
         /** Newnode's prev should be the node that used to be the
          * last which is sentienl.prev, and it's next should be the
@@ -58,24 +58,24 @@ public class LinkedListDeque<T>{
         size++;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         boolean isempty = false;
-        if(size == 0){
+        if(size == 0) {
             isempty = true;
         }
         return isempty;
     }
 
-    public void printDeque(){
+    public void printDeque() {
         Node pointer = sentinel;
-        while(!pointer.next.equals(sentinel)){
+        while(!pointer.next.equals(sentinel)) {
             System.out.print(pointer.item.toString() + " ");
             pointer = pointer.next;
         }
         System.out.println();
     }
 
-    public T removeFirst(){
+    public T removeFirst() {
         T item = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
@@ -83,7 +83,7 @@ public class LinkedListDeque<T>{
         return item;
     }
 
-    public T removeLast(){
+    public T removeLast() {
         T item = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
@@ -91,7 +91,7 @@ public class LinkedListDeque<T>{
         return item;
     }
 
-    public T get(int index){
+    public T get(int index) {
         int i = 0;
         Node tempnode = sentinel;
         while(i < index){
@@ -101,7 +101,7 @@ public class LinkedListDeque<T>{
         return  tempnode.next.item;
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
