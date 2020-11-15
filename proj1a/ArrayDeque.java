@@ -2,10 +2,10 @@ public class ArrayDeque<T> {
     private int size;
     private int first;
     private int last;
-    private T[] ts;
+    private T[] thing;
 
     public ArrayDeque() {
-        ts = (T[]) new Object[100];
+        thing = (T[]) new Object[100];
         size = 0;
         first = 0;
         last = 0;
@@ -13,23 +13,23 @@ public class ArrayDeque<T> {
 
     private int getrightnumber(int index) {
         if (index < 0) {
-            index += ts.length;
+            index += thing.length;
         }
-        if (index > ts.length - 1) {
-            index -= ts.length;
+        if (index > thing.length - 1) {
+            index -= thing.length;
         }
         return index;
     }
 
     public void addFirst(T item) {
-        ts[first] = item;
+        thing[first] = item;
         size++;
         first--;
         first = getrightnumber(first);
     }
 
     public void addLast(T item) {
-        ts[last] = item;
+        thing[last] = item;
         size++;
         last++;
         last = getrightnumber(last);
@@ -49,21 +49,21 @@ public class ArrayDeque<T> {
 
     public T removeFirst() {
         first = getrightnumber(first + 1);
-        T removedfirst = ts[first];
+        T removedfirst = thing[first];
         size--;
         return removedfirst;
     }
 
     public T removeLast() {
         last = getrightnumber(last + 1);
-        T removedlast = ts[last];
+        T removedlast = thing[last];
         size--;
         return removedlast;
     }
 
     public T get(int index) {
         index = getrightnumber(index + first + 1);
-        T getitem = ts[index];
+        T getitem = thing[index];
         return getitem;
     }
 
