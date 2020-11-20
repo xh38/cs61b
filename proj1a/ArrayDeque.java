@@ -82,7 +82,7 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        index = getrightnumber(index + first + 1);
+        index = getrightnumber(index + first);
         T getitem = thing[index];
         return getitem;
     }
