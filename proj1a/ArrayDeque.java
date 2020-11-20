@@ -70,6 +70,8 @@ public class ArrayDeque<T> {
     public T removeFirst() {
         first = getrightnumber(first + 1);
         T removedfirst = thing[first];
+        first++;
+        first = getrightnumber(first);
         size--;
         return removedfirst;
     }
@@ -77,6 +79,8 @@ public class ArrayDeque<T> {
     public T removeLast() {
         last = getrightnumber(last + 1);
         T removedlast = thing[last];
+        last--;
+        last = getrightnumber(last);
         size--;
         return removedlast;
     }
