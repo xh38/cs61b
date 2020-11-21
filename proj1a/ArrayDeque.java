@@ -8,7 +8,7 @@ public class ArrayDeque<T> {
         thing = (T[]) new Object[100];
         size = 0;
         first = 0;
-        last = 0;
+        last = 1;
     }
 
     private int getrightnumber(int index) {
