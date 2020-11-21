@@ -1,101 +1,92 @@
 public class ArrayDeque<T> {
-    private int size;
-    private int first;
-    private int last;
-    private T[] thing;
+    int size;
+    int nextFirst;
+    int nextLast;
+    T[] array;
 
-    public ArrayDeque() {
-        thing = (T[]) new Object[100];
+    public ArrayDeque(){
         size = 0;
-        first = 0;
-        last = 1;
+        nextFirst = 0;
+        nextLast = 1;
+        array = (T[]) new Object[8];
     }
 
-    private int getrightnumber(int index) {
+    private int getrightindex(int index) {
         if (index < 0) {
-            index += thing.length;
+            index = index + array.length;
         }
-        if (index > thing.length - 1) {
-            index -= thing.length;
+        if (index > array.length - 1) {
+            index = index - array.length;
         }
         return index;
     }
 
-    private void resize(){
-        T[] temp = (T[]) new Object[100];
-        if (last > first) {
-            System.arraycopy(thing, 0, temp, 0, size);
+    private void resize() {
+        T[] temp = (T[]) new Object[array.length * 2];
+        if (nextFirst < array.length - 1){
+            System.arraycopy(array, nextFirst + 1, temp, 0, array.length - nextFirst - 1);
+            System.arraycopy(array, 0, temp, array.length - nextFirst - 1, nextLast);
         }
         else {
-            System.arraycopy(thing, first, temp,0, thing.length - first);
-            System.arraycopy(thing, 0, temp, thing.length - first, first);
+            System.arraycopy(array, 0, temp, 0, array.length);
         }
-        first = 0;
-        last = size - 1;
-        thing = temp;
+        nextFirst = temp.length - 1;
+        nextLast = size;
+        array = temp;
     }
 
     public void addFirst(T item) {
-        if (size == thing.length) {
+        if (size == array.length) {
             resize();
         }
-        thing[first] = item;
+        array[nextFirst] = item;
+        nextFirst = getrightindex(nextFirst - 1);
         size++;
-        first--;
-        first = getrightnumber(first);
     }
-
     public void addLast(T item) {
-        if (size == thing.length) {
+        if (size == array.length) {
             resize();
         }
-        thing[last] = item;
+        array[nextLast] = item;
+        nextLast = getrightindex(nextLast + 1);
         size++;
-        last++;
-        last = getrightnumber(last);
     }
-
     public boolean isEmpty() {
-        boolean isempty = false;
+        boolean flag = false;
         if (size == 0) {
-            isempty = true;
+            flag = true;
         }
-        return isempty;
+        return flag;
     }
-
     public int size() {
         return size;
     }
+    public void printDeque() {
+        int i = nextFirst;
+        int number = size;
+        while (number > 0) {
+            i = getrightindex(i + 1);
+            System.out.print(array[i] + " ");
+            number--;
+        }
+    }
 
     public T removeFirst() {
-        first = getrightnumber(first + 1);
-        T removedfirst = thing[first];
-        first++;
-        first = getrightnumber(first);
+        nextFirst = getrightindex(nextFirst + 1);
+        T first = array[nextFirst];
         size--;
-        return removedfirst;
+        return first;
     }
 
     public T removeLast() {
-        last = getrightnumber(last + 1);
-        T removedlast = thing[last];
-        last--;
-        last = getrightnumber(last);
+        nextLast = getrightindex(nextLast - 1);
+        T Last = array[nextLast];
         size--;
-        return removedlast;
+        return Last;
     }
 
     public T get(int index) {
-        index = getrightnumber(index + first);
-        T getitem = thing[index];
-        return getitem;
-    }
-
-    public void printDeque() {
-        int index = 0;
-        while (index < size - 1) {
-            System.out.print(get(index) + " ");
-            index++;
-        }
+        T item = array[getrightindex(index + nextFirst + 1)];
+        return  item;
     }
 }
