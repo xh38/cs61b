@@ -1,8 +1,8 @@
 public class ArrayDeque<T> {
-    int size;
-    int nextFirst;
-    int nextLast;
-    T[] array;
+    private int size;
+    private int nextFirst;
+    private int nextLast;
+    private T[] array;
 
     public ArrayDeque(){
         size = 0;
