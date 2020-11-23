@@ -35,6 +35,20 @@ public class ArrayDeque<T> {
         array = temp;
     }
 
+    private void reducesize() {
+        T[] temp = (T[]) new Object[array.length / 2];
+        if (nextFirst > nextLast) {
+            System.arraycopy(array, getrightindex(nextFirst + 1), temp, 0, array.length - nextFirst - 1);
+            System.arraycopy(array, 0, temp, array.length-nextFirst-1, nextLast);
+        }
+        else {
+            System.arraycopy(array, nextFirst + 1, temp, 0, size);
+        }
+        nextFirst = temp.length - 1;
+        nextLast = size;
+        array = temp;
+    }
+
     public void addFirst(T item) {
         if (size == array.length) {
             resize();
@@ -75,6 +89,9 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        if (size < array.length / 2) {
+            reducesize();
+        }
         nextFirst = getrightindex(nextFirst + 1);
         T first = array[nextFirst];
         size--;
@@ -84,6 +101,9 @@ public class ArrayDeque<T> {
     public T removeLast() {
         if (size == 0) {
             return null;
+        }
+        if (size < array.length / 2) {
+            reducesize();
         }
         nextLast = getrightindex(nextLast - 1);
         T Last = array[nextLast];
