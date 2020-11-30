@@ -76,3 +76,38 @@ public interface SLList<Item> implements {
 
 if dynamic type y override the static type, use y instead
 
+**method selection: static type goes first, if overrides the recorded signature use the overridden method**
+
+```java
+public class RotatingSLList<Blorp> extends SLList<Blorp> {
+    public void rotateRight() {
+        Blorp oldBack = removeLast();
+        insertFront(oldBack);
+    }
+}
+```
+
+by extends, RotatingSLList inherits all instance and static variables all methods all nested classes but not constructors.
+
+all constructors must start with a call to one of the super class's constructors. If you don't explicitly call the constructor, java will automatically do it for you.
+
+```java
+public class VengefulSLList<Item> extends SLList<Item> {
+    private SLList<Item> deletedItems;
+    /**the followint two are equivalent*/
+    public VengefulSLList() {
+        super();
+        deletedItems = new SLList<Item>();
+    }
+    public VengefulSLList() {
+        deletedItems = new SLList<Item>();
+    }
+    /**but this one is different*/
+    public VengefulSLList(Item x) {
+        super(x);
+        deletedItems = new SLList<Item>();
+    }
+}
+```
+
+###### Encapsulation
