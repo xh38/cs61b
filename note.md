@@ -111,3 +111,25 @@ public class VengefulSLList<Item> extends SLList<Item> {
 ```
 
 ###### Encapsulation
+
+###### casting
+
+```java
+Poodle largePoodle = (Poodle) maxDog(frank,frankSr); 
+```
+
+not change anything
+
+static type to decide which is allowed
+
+###### Subtype Polymorphism
+
+providing a single interface to entities of different types
+
+```python
+def print_larfer(x, y):
+    if x.largerThan(y):
+        return x.str()
+    return y.str()
+```
+
