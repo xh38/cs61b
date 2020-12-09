@@ -16,25 +16,24 @@ public class Palindrome {
         Deque<Character> inorder = wordToDeque(word);
         String reverse = "";
         int size = inorder.size();
-        for (int i = 0;i < size; i++) {
+        for (int i = 0; i < size; i++) {
             reverse += inorder.removeLast();
         }
         boolean flag = word.equals(reverse);
         return flag;
     }
 
-    public boolean isPalindrome(String word,CharacterComparator cc) {
+    public boolean isPalindrome(String word, CharacterComparator cc) {
         if (word.length() == 0 || word.length() == 1) {
             return true;
         }
-        if (word.length() % 2 == 0){
+        if (word.length() % 2 == 0) {
             for (int i = 0; i < word.length() / 2; i++) {
                 if (!cc.equalChars(word.charAt(i), word.charAt(word.length() - i - 1))) {
                     return false;
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < (word.length() - 1) / 2; i++) {
                 if (!cc.equalChars(word.charAt(i), word.charAt(word.length() - i - 1))) {
                     return false;

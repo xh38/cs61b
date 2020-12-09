@@ -8,7 +8,7 @@ public class TestOffByOne {
 
     // Your tests go here.
     @Test
-    public void testequalChars(){
+    public void testequalChars() {
         boolean test1 = offByOne.equalChars('a', 'b');
         boolean test2 = offByOne.equalChars('b', 'a');
         boolean test3 = offByOne.equalChars('r', 'q');
