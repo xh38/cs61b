@@ -38,13 +38,13 @@ public class TestPalindrome {
 
     @Test
     public void testisPalindromeoffbyone() {
-        boolean test1 = palindrome.isPalindrome("",offByOne);
-        boolean test2 = palindrome.isPalindrome("a",offByOne);
-        boolean test3 = palindrome.isPalindrome("ab",offByOne);
-        boolean test4 = palindrome.isPalindrome("ruq",offByOne);
-        boolean test5 = palindrome.isPalindrome("aka",offByOne);
-        boolean test6 = palindrome.isPalindrome("shzlslzhs",offByOne);
-        boolean test7 = palindrome.isPalindrome("aa",offByOne);
+        boolean test1 = palindrome.isPalindrome("", offByOne);
+        boolean test2 = palindrome.isPalindrome("a", offByOne);
+        boolean test3 = palindrome.isPalindrome("ab", offByOne);
+        boolean test4 = palindrome.isPalindrome("ruq", offByOne);
+        boolean test5 = palindrome.isPalindrome("aka", offByOne);
+        boolean test6 = palindrome.isPalindrome("shzlslzhs", offByOne);
+        boolean test7 = palindrome.isPalindrome("aa", offByOne);
         assertTrue(test1);
         assertTrue(test2);
         assertTrue(test3);
