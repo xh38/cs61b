@@ -284,5 +284,19 @@ to achieve balance: rotate after each insertion and deletion to maintain balance
 
 (2-3 trees provide a rotation strategy for BSTs called "red-black")
 
+###### B-trees
+
+no rotation needed
+
+ set a cap for a node 
+
+split if it's more than the cap
+
+$$\theta(logN)$$
+
+###### Red-Black
+
+ Left-Leaning Red Black Binary Search Tree 
+
 
 
