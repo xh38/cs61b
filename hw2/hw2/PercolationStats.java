@@ -2,7 +2,7 @@ package hw2;
 
 public class PercolationStats {
     private int[] openedsites;
-    private int time;
+    private final int time;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0) {
@@ -18,7 +18,9 @@ public class PercolationStats {
             while (!model.percolates()) {
                int randrow = edu.princeton.cs.introcs.StdRandom.uniform(N);
                int randcol = edu.princeton.cs.introcs.StdRandom.uniform(N);
-               model.open(randrow, randcol);
+               if (!model.isOpen(randrow, randcol)){
+                   model.open(randrow, randcol);
+               }
             }
             openedsites[i] = model.numberOfOpenSites();
         }

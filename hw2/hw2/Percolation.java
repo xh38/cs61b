@@ -14,7 +14,7 @@ public class Percolation {
     private WeightedQuickUnionUF helper;
     private WeightedQuickUnionUF isFullhelper;
 
-    private int xyTo1D(int row, int col){
+    private int xyTo1D(int row, int col) {
         if (row > N - 1 || col > N - 1 || row < 0 || col < 0) {
             throw new java.lang.IndexOutOfBoundsException("xyTo1D：index out of range!");
         }
@@ -23,29 +23,29 @@ public class Percolation {
 
     private void unionhelper(int row, int col, WeightedQuickUnionUF help) {
         if (row > 0) {
-            if (isOpen(row-1, col)) {
-                help.union(xyTo1D(row-1, col), xyTo1D(row, col));
+            if (isOpen(row - 1, col)) {
+                help.union(xyTo1D(row - 1, col), xyTo1D(row, col));
             }
         }
-        if (row < N-1) {
-            if (isOpen(row+1, col)) {
-                help.union(xyTo1D(row+1, col), xyTo1D(row, col));
+        if (row < N - 1) {
+            if (isOpen(row + 1, col)) {
+                help.union(xyTo1D(row + 1, col), xyTo1D(row, col));
             }
         }
-        if (col < N-1) {
-            if (isOpen(row, col+1)) {
-                help.union(xyTo1D(row, col+1), xyTo1D(row, col));
+        if (col < N - 1) {
+            if (isOpen(row, col + 1)) {
+                help.union(xyTo1D(row, col + 1), xyTo1D(row, col));
             }
         }
         if (col > 0) {
-            if (isOpen(row, col-1)) {
-                help.union(xyTo1D(row, col-1), xyTo1D(row, col));
+            if (isOpen(row, col - 1)) {
+                help.union(xyTo1D(row, col - 1), xyTo1D(row, col));
             }
         }
     }
 
-    public Percolation(int N){
-        if (N < 0) {
+    public Percolation(int N) {
+        if (N <= 0) {
             throw new java.lang.IndexOutOfBoundsException("N should be bigger than 0!");
         }
         this.N = N;
@@ -57,7 +57,7 @@ public class Percolation {
         for (int i = 0; i < N; i++) {
             helper.union(start, xyTo1D(0, i));
             isFullhelper.union(start, xyTo1D(0, i));
-            helper.union(end, xyTo1D(N-1, i));
+            helper.union(end, xyTo1D(N - 1, i));
         }
         grid = new int[N][N];
         for (int i = 0; i < N; i++) {
@@ -106,14 +106,14 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation test = new Percolation(5);
+        Percolation test = new Percolation(-10);
         test.open(3, 4);
         test.open(2, 4);
-        System.out.println(test.helper.connected(test.xyTo1D(3,4), test.xyTo1D(2,4) ));
+        System.out.println(test.helper.connected(test.xyTo1D(3, 4), test.xyTo1D(2, 4)));
         test.open(2, 2);
-        System.out.println(test.helper.connected(test.xyTo1D(2,2), test.xyTo1D(2,4) ));
+        System.out.println(test.helper.connected(test.xyTo1D(2, 2), test.xyTo1D(2, 4)));
         test.open(2, 3);
-        System.out.println(test.helper.connected(test.xyTo1D(2,2), test.xyTo1D(2,4) ));
+        System.out.println(test.helper.connected(test.xyTo1D(2, 2), test.xyTo1D(2, 4)));
         test.open(0, 2);
         System.out.println(test.isFull(2, 2));
         test.open(1, 2);
