@@ -8,7 +8,11 @@ public class Percolation {
     private final int[][] grid;
     private int numbers;
 
+    private int start;
+    private int end;
+
     private WeightedQuickUnionUF helper;
+    private WeightedQuickUnionUF isFullhelper;
 
     private int xyTo1D(int row, int col){
         if (row > N - 1 || col > N - 1 || row < 0 || col < 0) {
@@ -17,25 +21,25 @@ public class Percolation {
         return row * N + col;
     }
 
-    private void unionhelper(int row, int col) {
+    private void unionhelper(int row, int col, WeightedQuickUnionUF help) {
         if (row > 0) {
             if (isOpen(row-1, col)) {
-                helper.union(xyTo1D(row-1, col), xyTo1D(row, col));
+                help.union(xyTo1D(row-1, col), xyTo1D(row, col));
             }
         }
         if (row < N-1) {
             if (isOpen(row+1, col)) {
-                helper.union(xyTo1D(row+1, col), xyTo1D(row, col));
+                help.union(xyTo1D(row+1, col), xyTo1D(row, col));
             }
         }
         if (col < N-1) {
             if (isOpen(row, col+1)) {
-                helper.union(xyTo1D(row, col+1), xyTo1D(row, col));
+                help.union(xyTo1D(row, col+1), xyTo1D(row, col));
             }
         }
         if (col > 0) {
             if (isOpen(row, col-1)) {
-                helper.union(xyTo1D(row, col-1), xyTo1D(row, col));
+                help.union(xyTo1D(row, col-1), xyTo1D(row, col));
             }
         }
     }
@@ -46,7 +50,15 @@ public class Percolation {
         }
         this.N = N;
         this.numbers = 0;
-        this.helper = new WeightedQuickUnionUF(N * N);
+        this.helper = new WeightedQuickUnionUF(N * N + 2);
+        this.isFullhelper = new WeightedQuickUnionUF(N * N + 1);
+        this.start = N * N;
+        this.end = start + 1;
+        for (int i = 0; i < N; i++) {
+            helper.union(start, xyTo1D(0, i));
+            isFullhelper.union(start, xyTo1D(0, i));
+            helper.union(end, xyTo1D(N-1, i));
+        }
         grid = new int[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -63,7 +75,8 @@ public class Percolation {
             return;
         }
         grid[row][col] = 1;
-        unionhelper(row, col);
+        unionhelper(row, col, helper);
+        unionhelper(row, col, isFullhelper);
         numbers += 1;
     }
 
@@ -78,12 +91,10 @@ public class Percolation {
         if (row > N - 1 || col > N - 1 || row < 0 || col < 0) {
             throw new java.lang.IndexOutOfBoundsException("isFull: index out of range!");
         }
-        for (int i = 0; i < N; i++) {
-            if (helper.connected(xyTo1D(row, col), xyTo1D(0, i))) {
-                return true;
-            }
+        if (!isOpen(row, col)) {
+            return false;
         }
-        return false;
+        return isFullhelper.connected(xyTo1D(row, col), start);
     }
 
     public int numberOfOpenSites() {
@@ -91,12 +102,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        for (int i = 0; i < N; i++) {
-            if (isFull(N-1, i)) {
-                return true;
-            }
-        }
-        return false;
+        return helper.connected(start, end);
     }
 
     public static void main(String[] args) {
