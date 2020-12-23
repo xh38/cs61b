@@ -19,9 +19,7 @@ public class PercolationStats {
                 int randrow = edu.princeton.cs.introcs.StdRandom.uniform(N);
                 int randcol = edu.princeton.cs.introcs.StdRandom.uniform(N);
 
-                if (!model.isOpen(randrow, randcol)) {
-                    model.open(randrow, randcol);
-                }
+                model.open(randrow, randcol);
             }
             openedsites[i] = model.numberOfOpenSites();
         }

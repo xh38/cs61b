@@ -102,11 +102,19 @@ public class Percolation {
     }
 
     public boolean percolates() {
+        if (N == 1) {
+            return isOpen(0, 0);
+        }
         return helper.connected(start, end);
     }
 
     public static void main(String[] args) {
-        Percolation test = new Percolation(-10);
+        Percolation test1 = new Percolation(1);
+        System.out.println(test1.percolates());
+        test1.open(0, 0);
+        System.out.println(test1.percolates());
+
+        Percolation test = new Percolation(5);
         test.open(3, 4);
         test.open(2, 4);
         System.out.println(test.helper.connected(test.xyTo1D(3, 4), test.xyTo1D(2, 4)));
@@ -118,5 +126,10 @@ public class Percolation {
         System.out.println(test.isFull(2, 2));
         test.open(1, 2);
         System.out.println(test.isFull(2, 2));
+        System.out.println(test.numberOfOpenSites());
+        test.open(1, 2);
+        test.open(1, 2);
+        test.open(1, 2);
+        System.out.println(test.numberOfOpenSites());
     }
 }
