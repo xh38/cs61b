@@ -46,7 +46,7 @@ public class Percolation {
 
     public Percolation(int N) {
         if (N <= 0) {
-            throw new java.lang.IndexOutOfBoundsException("N should be bigger than 0!");
+            throw new java.lang.IllegalArgumentException("N should be bigger than 0!");
         }
         this.N = N;
         this.numbers = 0;
