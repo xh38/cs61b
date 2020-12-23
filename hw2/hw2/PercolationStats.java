@@ -1,7 +1,7 @@
 package hw2;
 
 public class PercolationStats {
-    private int[] openedsites;
+    private double[] openedsites;
     private final int time;
 
     public PercolationStats(int N, int T, PercolationFactory pf) {
@@ -11,7 +11,7 @@ public class PercolationStats {
         if (T <= 0) {
             throw new IllegalArgumentException("T should larger than 0");
         }
-        openedsites = new int[T];
+        openedsites = new double[T];
         time = T;
         for (int i = 0; i < T; i++) {
             Percolation model = pf.make(N);
@@ -21,7 +21,7 @@ public class PercolationStats {
 
                 model.open(randrow, randcol);
             }
-            openedsites[i] = model.numberOfOpenSites();
+            openedsites[i] = (double) model.numberOfOpenSites() / (double)(N * N);
         }
     }
 
