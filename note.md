@@ -302,3 +302,120 @@ insertion
 
 
 
+##### Hashing
+
+###### binary representations DataIndexedSet
+
+word: base(27) or base(32) base(31) works well
+
+###### Handling Collision
+
+instead of storing true in position h, store a list of these N items.
+
+if N items distributed across M buckets, average time grows with N/M == L
+
+###### hash table
+
+- every item is mapped to a bucket number using hash function
+
+- compute a hash code and compute the index = hashcode modulo M
+
+- if L = N / M gets too large, increase M
+
+- to resolve ambiguity 
+
+  - 1.Exteranl chaining 
+
+  - 2.open addressing
+
+hashcode for list
+
+```java
+@override
+public int hashcode() {
+    int hashcode = 1;
+    for (Object o : this) {
+        hashcode = hashcode * 31;
+        hashcode = hashcode + o.hashcode();
+    }
+    return hashcode;
+} 
+```
+
+hashcode for tree
+
+```java
+@override
+public int hashcode() {
+    if (this.value == null) {
+        return 0;
+    }
+    return this.value.hashcode() + 
+        31 * this.left.hashcode() + 
+        31 * 31 * this.right.value.hashcode();
+}
+```
+
+default hashCode in java: return this
+
+all objects must implement hashcode();
+
+- never store mutable objects in a HashSet or HashMap
+- never override equals without overriding hashCode
+
+##### Priority Queues and heaps
+
+###### interface
+
+```java
+/**(MIN) priority queue: Allowing tracking and removal of the 
+  *smallest item in a priority queue. */
+public interface MinPQ(Item) {
+    /** adds the item to the priority queue. */
+    public void add(Item x);
+    /** returns the smallest item in the priority queue. */
+    public Item getSmallest();
+    /** removes the smallest item from the priority queue. */
+    public Item removeSmallest();
+    /** returns the size of the priority queue. */
+    public int size();
+}
+```
+
+###### Implementation
+
+###### heaps
+
+Binary min-heap: Binary tree that is **complete** and obeys **min-heap property**.
+
+- Min-heap: Every node is less than or equal to both of its children.
+- Complete: Missing items only at the bottom level (if any), all nodes are as far left as possible.
+
+heaps lend themselves very naturally to implementation of a priority queue.
+
+- getSmallest() - return the item in the root node.
+- add(x) - place the new employee in the last position, and promote as high as possible.(swim())
+- removeSmallest() - assassinate the president (of the company), promote the rightmost person in the company to president. Then demote repeatedly, always taking the ‘better’ successor.(sink())
+
+###### Tree representation
+
+- Approach 1:  create mapping from node to children 
+- Approach 2:  store keys in an array, store parent ID in another array
+- Approach 3:  store keys in an array. (only works for complete trees) (can leave a empty spot makes leftchild 2*k right child 2*k+1 and parent k/2)
+
+###### time of heap
+
+add $$\theta(logN)$$ getSmallest $$\theta(1)$$ removeSmallest $$\theta(logN)$$
+
+##### Graph
+
+
+
+###### Shortest paths
+
+Dijikstra
+
+A*
+
+heuristic has to be admissible
+
