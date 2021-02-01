@@ -1,18 +1,36 @@
 ### CS61B
 
-Java
+#### Java
 
-##### LinkedList
+**Hello.java**  javac **Hello.class** java **some stuff**
 
-sentinel
+- Every method (a.k.a. function) is associated with some class.
+- To run a class, we must define a main method.
 
-ArrayList
-
-resize()
+###### arrays of objects
 
 ```java
-(T[]) new Object[100];
+Dog[] dogs = new Dog[2];
+T[] item = (T[]) new Object[100];
 ```
+
+###### static and instance members
+
+- static method are invoked using the class name 
+
+- instance method are invoked using an instance name 
+
+- static method can't access "my" instance variables, because there is no me
+
+###### main
+
+```java
+public static void main(String[] args)
+```
+
+args: command line arguments
+
+###### Using libraries
 
 ```java
 import org.junit.Test;
@@ -24,6 +42,26 @@ assertNotnull();assertFalse();fail();
 ```
 
 Java allows method overloading 
+
+###### Primitive types
+
+- 8 primitive types in Java: byte, short, **int**, long, float, **double**, boolean, char
+
+###### Reference types
+
+- everything else is reference types
+- address in java is 64 bits
+
+###### Parameter Passing
+
+**the golden rule of  Equals**
+
+- b = a copies all the bits from a to b.
+- parameter passing obeys the same rule
+
+###### instantiation of Arrays
+
+
 
 ##### interface and class 
 
@@ -142,6 +180,16 @@ package private
 protected
 
 public
+
+#### Data structure
+
+##### LinkedList
+
+sentinel
+
+ArrayList
+
+resize()
 
 ##### ArrayMap
 
