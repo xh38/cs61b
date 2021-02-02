@@ -61,7 +61,50 @@ Java allows method overloading
 
 ###### instantiation of Arrays
 
+###### public and private 
 
+use a private keyword to prevent code in other classes from using members of a class
+
+```java
+public class SLList {
+    private IntNode first;
+    .......
+}
+```
+
+###### nested class
+
+```java
+public class SLList {
+    public class IntNode {
+        public int item
+            ...
+    }
+    ...
+}
+```
+
+nested class are useful when class does not stand on its own
+
+**static nested class** 
+
+if nested class never use any instance or method of outer class, declare it static (minor savings of memory)
+
+###### Generic 
+
+```java
+public class SLList<T> {
+    private Node sentinel;
+    private int size;
+    
+    public class Node {
+        public T item;
+        public Node next;
+    }
+}
+
+SLList<Integer> s1 = new SLList<>(5);
+```
 
 ##### interface and class 
 
@@ -183,11 +226,24 @@ public
 
 #### Data structure
 
+data structure should be easy to use, users has no needs to know the detail
+
 ##### LinkedList
 
-sentinel
+###### sentinel node 
 
-ArrayList
+to make all the SLLists the same 
+
+sentinel is never null
+
+**invariants** 
+
+- Can assume they are true to simplify code (e.g. addLast doesn’t need to worry about nulls).
+- Must ensure that methods preserve invariants.
+
+###### Doubly Linked List
+
+##### ArrayList
 
 resize()
 
