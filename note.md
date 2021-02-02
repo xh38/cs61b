@@ -523,3 +523,69 @@ A*
 
 heuristic has to be admissible
 
+#### sort
+
+###### selection sort
+
+- find the smallest 
+- move it to the end of the sorted portion (swap)
+- sort the rest
+
+time: $$\theta(N^2)$$
+
+###### Heap sort
+
+**naive**
+
+- insert all items into a max heap ($$(Nlog(N))$$)
+- remove the top  ($$logN$$) put it at the end
+
+time:$$O(NlogN)$$
+
+memory:$$\theta(N)$$
+
+**in-place heap sort**
+
+bottom-up heapify input array 
+
+- sink nodes in reverse order
+- guaranteed the tree rooted at position k is a heap
+- delete largest item from the max heap, swapping root with last item in the heap
+
+time: $$O(NlogN)$$ 
+
+memory: $$\theta(1)$$
+
+###### merge sort
+
+Top-down
+
+- split items into 2 roughly even pieces
+- merge sort each half 
+- merge two sorted halves to form the final result 
+
+time: $$\theta(NlogN)$$
+
+memory: $$\theta(N)$$
+
+###### insertion sort
+
+not in place
+
+- start with an empty output sequence
+- add each item from input, inserting into output at right point
+
+in-place
+
+- repeat for i = 1 to N - 1
+  - designate item i as the travelling item
+  - swap item backwards until traveler is in the  right place all previously  examined items
+
+time: $$\Omega(N)$$ to $$O(N^2)$$
+
+memory: $$\theta(1)$$
+
+**for small arrays insertion sort is faster**
+
+###### quick sort
+
