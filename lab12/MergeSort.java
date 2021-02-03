@@ -35,7 +35,13 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> itemQueue = new Queue<Queue<Item>>();
+        for (Item i : items) {
+            Queue<Item> perQueue = new Queue<Item>();
+            perQueue.enqueue(i);
+            itemQueue.enqueue(perQueue);
+        }
+        return itemQueue;
     }
 
     /**
@@ -54,13 +60,45 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> sortQueue = new Queue<Item>();
+        while(!q1.isEmpty() || !q2.isEmpty()) {
+            sortQueue.enqueue(getMin(q1, q2));
+        }
+        return sortQueue;
     }
+
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
+        Queue<Queue<Item>> beforesort = makeSingleItemQueues(items);
+        while(beforesort.size() > 1) {
+            beforesort.enqueue(mergeSortedQueues(beforesort.dequeue(), beforesort.dequeue()));
+        }
+        items = beforesort.dequeue();
         return items;
+    }
+
+    public static void main(String[] args) {
+        Queue<String> unsorted1 = new Queue<String>();
+        unsorted1.enqueue("xuhao");
+        unsorted1.enqueue("zhugexiangwen");
+        unsorted1.enqueue("xuye");
+        unsorted1.enqueue("tongzhengren");
+        unsorted1.enqueue("zhengzhiyuan");
+        Queue<String> sorted1 = MergeSort.mergeSort(unsorted1);
+        System.out.println(unsorted1);
+        System.out.println(sorted1);
+
+        Queue<Integer> unsorted2 = new Queue<Integer>();
+        unsorted2.enqueue(100);
+        unsorted2.enqueue(78);
+        unsorted2.enqueue(38);
+        unsorted2.enqueue(900);
+        unsorted2.enqueue(121238);
+        Queue<Integer> sorted2 = MergeSort.mergeSort(unsorted2);
+        System.out.println(unsorted2);
+        System.out.println(sorted2);
     }
 }
