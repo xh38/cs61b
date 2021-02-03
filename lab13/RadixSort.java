@@ -17,7 +17,19 @@ public class RadixSort {
      */
     public static String[] sort(String[] asciis) {
         // TODO: Implement LSD Sort
-        return null;
+        int maxlength = Integer.MIN_VALUE;
+        for (String i : asciis) {
+            maxlength = maxlength > i.length() ? maxlength : i.length();
+        }
+
+        String[] sorted = new String[asciis.length];
+        System.arraycopy(asciis, 0, sorted, 0, asciis.length);
+
+        for (int i = 0; i < maxlength; i++) {
+            sortHelperLSD(sorted, i);
+        }
+
+        return sorted;
     }
 
     /**
@@ -28,7 +40,37 @@ public class RadixSort {
      */
     private static void sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
-        return;
+        String[] temp = new String[asciis.length];
+        System.arraycopy(asciis, 0, temp, 0, asciis.length);
+
+        int[] counts = new int[256];
+        for (String i : asciis) {
+            if (index < i.length()){
+                counts[(int) i.charAt(index)]++;
+            } else {
+                counts[0]++;
+            }
+        }
+
+        int[] starts = new int[256];
+        int pos = 0;
+        for (int i = 0; i < 256; i++) {
+            starts[i] = pos;
+            pos += counts[i];
+        }
+
+        for (int i = 0; i < asciis.length; i += 1) {
+            String item = temp[i];
+            if (item.length() > index) {
+                int place = starts[(int) item.charAt(index)];
+                asciis[place] = item;
+                starts[(int) item.charAt(index)] += 1;
+            } else {
+                int place = starts[0];
+                asciis[place] = item;
+                starts[0] += 1;
+            }
+        }
     }
 
     /**
@@ -44,5 +86,13 @@ public class RadixSort {
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
         // Optional MSD helper method for optional MSD radix sort
         return;
+    }
+
+    public static void main(String[] args) {
+        String[] unsorted = {"abc", "ee", "zgxw", "hjkl", "xuhao"};
+        String[] sorted = sort(unsorted);
+        System.out.println(unsorted);
+        System.out.println(sorted);
+        int i = 0;
     }
 }
