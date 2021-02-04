@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Class for doing Radix sort
  *
@@ -25,7 +27,7 @@ public class RadixSort {
         String[] sorted = new String[asciis.length];
         System.arraycopy(asciis, 0, sorted, 0, asciis.length);
 
-        for (int i = 0; i < maxlength; i++) {
+        for (int i = maxlength - 1; i >= 0; i--) {
             sortHelperLSD(sorted, i);
         }
 
@@ -91,8 +93,7 @@ public class RadixSort {
     public static void main(String[] args) {
         String[] unsorted = {"abc", "ee", "zgxw", "hjkl", "xuhao"};
         String[] sorted = sort(unsorted);
-        System.out.println(unsorted);
-        System.out.println(sorted);
-        int i = 0;
+        System.out.println(Arrays.toString(unsorted));
+        System.out.println(Arrays.toString(sorted));
     }
 }
