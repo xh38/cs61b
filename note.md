@@ -404,7 +404,7 @@ $$\theta(logN)$$
 
 insertion
 
-
+##### Tree Traversals
 
 ##### Hashing
 
@@ -486,7 +486,7 @@ public interface MinPQ(Item) {
 }
 ```
 
-###### Implementation
+
 
 ###### heaps
 
@@ -523,7 +523,11 @@ A*
 
 heuristic has to be admissible
 
+##### Tries
+
 #### sort
+
+##### basic
 
 ###### selection sort
 
@@ -587,5 +591,122 @@ memory: $$\theta(1)$$
 
 **for small arrays insertion sort is faster**
 
-###### quick sort
+##### quick sort
+
+###### partitioning 
+
+to partition an array a[] on x=a[i] is to rearrange a[] so that:
+
+- x moves to position j
+- all entries to the left of x are <= x
+- all entries to the right of x are >= x
+
+###### Quicksort
+
+naive
+
+- partition on the left most item
+- quicksort left half
+- quicksort right half
+
+Time:
+
+- best case: $$\theta(NlogN)$$
+- worst case: $$\theta(N^2)$$
+- randomly chosen case: $$\theta(NlogN)$$ expected
+
+Memory: $$\theta(logN)$$
+
+###### to avoid the worst case
+
+- Randomness: pick a random pivot
+- Smarter pivot selection: calculate or approximate the median
+- Introspection: Switch to a safer sort if recursion goes too deep
+- Preprocess the array
+
+###### Tony Hoare's In-place Partitioning Scheme 
+
+take two pointers
+
+- left pointer loves small items
+- right pointer loves large items
+- walk towards each other, swap items they don't like
+- swap the pivot
+
+###### Median Identification
+
+BFPRT
+
+but quick sort with exact median is terrible
+
+**Quick Select**
+
+use partition for finding the median
+
+worst case: $$\theta(N^2)$$
+
+Expected Performance: $$\theta(N)$$
+
+but quick sort using quick select is still quite slow
+
+###### stability
+
+A sort is said to be stable if order of equivalent items is preserved
+
+insertion sort  and merge sort is stable 
+
+heap sort is not stable 
+
+quick sort can be stable but use different partitioning schemes
+
+**optimizing**
+
+when subproblem reaches size 15 or lower, use insertion sort.
+
+...
+
+###### shuffling
+
+##### Theoretical bounds on sorting
+
+$$N! \in \Omega((\frac{N}{2})^2)$$
+
+$$NlogN \in \Omega(log(N!))$$
+
+**puppy cat dog**
+
+- How many questions would you need to ask to definitely solve the generalized “puppy, cat, dog” problem for N items?
+- Answer: Ω(log(N!))
+  - Decision tree needs N! leaves
+  - So we need lg(N!) rounded up level
+
+**Any comparison based sort requires at least order N log N comparisons.**
+
+#### Radix sorting
+
+###### sleeping sort
+
+###### counting sort
+
+alphabet size is R
+
+time: $$\theta(N + R)$$
+
+Memory: $$\theta(N+R)$$
+
+if a really big collection of items or a really small alphabet counting sort will be fast
+
+###### LSD Radix Sorting
+
+sort from the Least Significant Digit
+
+time: $$\theta(WN+WR)$$ W is for max key length
+
+###### MSD Radix Sorting
+
+sort each subproblem separately
+
+best case: $$\theta(N+R)$$
+
+worst case: $$theta(WN+WR)$$
 
