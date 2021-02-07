@@ -763,11 +763,170 @@ public class BreadthFirstPaths {
 
 ###### Shortest paths
 
-Dijikstra
+###### Dijkstra
 
-A*
+SPT(shortest path tree) edge: V - 1
 
-heuristic has to be admissible
+- visit vertices in order of best-known distance from source, relaxing each edge from the visited vertex (relax: Add to SPT if better distance)
+
+```java
+public DijkstraSP(EdgeWeightedDiagraph G, int s) {
+    distTo = new double[G.V()];
+    DirectedEdge[] edgeTo = new DirectedEdge[G.V()];
+    distTo[s] = 0;
+    setDistancesToInfinityExceptsS(s);
+    
+    fringe = new SpecialPQ<Integer>();
+    insertAllVertices(fringe);
+    
+    /*relax verticex in order of distance from s*/
+    while(!fringe.isEmpty()) {
+        int v = fringe.delMin();
+        for (DirectedEdge e : G.adj(v)) {
+            relax(e);
+        }
+    }
+    
+    private void relax(DirectedEdge e) {
+        int v = e.from();
+        int w = e.to();
+        if (distTo[w] > distTo[v] + e.weight()) {
+            distTo[w] = distTo[v] + e.weight();
+            edgeTo[w] = e;
+            if (pq.contain(w)) {
+                pq.decreasePriority(w,distTo[w]);
+            }
+        }
+    }
+}
+```
+
+time: $$O(ElogV)$$
+
+###### A*
+
+- Visit vertices in order of d(source, v) + h(v), where h(V) is an estimate of the distance from v to target
+- In other words, look at some location v if:
+  - we know already the fastest way to reach v
+  - And we suspect that v is always the fastest way to target taking into account the time to get to v
+
+heuristic has to be admissible but doesn't have to be perfect 
+
+(不是最短路径的必要条件)
+
+###### minimum spanning trees
+
+Given a undirected graph, a spanning tree T is a subgraph of G, where T:
+
+- is connected
+- is acyclic
+- includes all of the vertices
+
+A **minimum spanning tree** is a spanning tree of minimum total weight.
+
+cut property
+
+- a cut is an assignment of a graph's nodes to two non-empty sets
+- a crossing edge is an edge which connects a node from the other set
+- **Cut property** Given any cut, minimum weight crossing edge is in the MST 
+
+**Prim's Algorithm**
+
+start from some arbitrary start node
+
+- repeatedly add shortest edge that has one node inside the MST under construction
+- repeat until V-1edges
+- relaxation in prim's considers an edge better based on distance to tree
+
+```java
+public class PrimMST {
+    public PrimMST(EdgeweightedGraph G) {
+        edgeTo = new Edge[G.V()];
+        distTo = new double[G.V()];
+        marked = new boolean[G.V()];
+        fringe = new SpecialPQ<Double>(G.V());
+        
+        distTo[s] = 0.0;
+        SetDistancesToInfinityExceptS(s);
+        insertAllVertices(fringe);
+        
+        while(!fringe.isEmpty()) {
+            int v = fringe.delMin();
+            scan(G, v);
+        }
+    }
+    
+    private void scan(EdgeweightedGraph G, int v) {
+        marked[v] = true;
+        for (Edge e : G.adj(v)) {
+            int w = e.other(v);
+            if(marked[w]) {
+                continue;
+            }
+            if (e.weight() < distTo[w]) {
+                distTo[w] = e.weight();
+                edgeTo[w] = e;
+                pq.decreasePriority(w, distTo[w]);
+            }
+        }
+    }
+}
+```
+
+time: $$O(ElogV)$$
+
+**Kruskal's Algorithm**
+
+- consider edges in increasing order of weight
+- add edge to MST unless doing so creates a cycle
+- repeat until V-1 edges
+
+```java
+public class KruskalMST {
+    private List<Edge> mst = new ArrayList<Edge>();
+    
+    public KruskalMST(EdgeweightedGraph G) {
+        MinPQ<Edge> pq = new MinPQ<Edge>();
+        for (Edge e : G.edges()) {
+            pq.insert(e);
+        }
+        WeightedQuickUnionPC uf = new WeightedQuickUnionPC(G.V());
+        while (!pq.isEmpty() && mst.size() < G.V() - 1) {
+            Edge e = pq.delMin();
+            int v = e.from();
+            int w = e.to();
+            if (!uf.connected(v, w)) {
+                uf.union(v, w);
+                mst.add(e);
+            }
+        }
+    }
+}
+```
+
+time: $$O(Elog*V)$$
+
+###### Dynamic Programming
+
+**Shortest Path in DAG**
+
+Directed Acyclic Graphs
+
+- Any such graph can be topological sorted (sometimes called linearization)
+
+SPTs on DAG: just visit vertices in topological order, relaxing all edges from a vertex when it is visited. time: $$\theta(E+V)$$
+
+**DP**
+
+This approach of solving increasingly large subproblems is sometimes called **dynamic programming**.
+
+- Identify a collection of subproblems.
+- Solve subproblems one by one, working from smallest to largest.
+- Use the answers to the smaller problems to help solve the larger ones.
+
+**Longest Increasing Subsequence**
+
+using a negative weight graph to find longest paths
 
 ##### Tries
 
