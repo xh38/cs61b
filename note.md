@@ -406,6 +406,128 @@ insertion
 
 ##### Tree Traversals
 
+###### Depth First Traversals
+
+- pre-order, in-order, post-order
+- rough idea: traverse "deep nodes" before shallow ones
+
+pre-order
+
+```java
+preOrder(BSTNode x) {
+    if (x == null) return;
+    print(x.key);
+    preOrder(x.left);
+    preOrder(x.right);
+}
+```
+
+DBACFEG
+
+in-order
+
+```java
+inOrder(BSTNode x) {
+    if (x == null) return;
+    inOrder(x.left);
+    print(x.key);
+    inOrder(x.right);
+}
+```
+
+ABCDEEFG
+
+post-order
+
+```java
+postOrder(BSTNode x) {
+    if (x == null) return;
+    postOrder(x.left);
+    postOrder(x.right);
+    print(x.key);
+}
+```
+
+ACBEGFD
+
+We walk the graph, from top going counter-clockwise.
+
+- Pre-order traversal:  Shout every time we pass the LEFT of a node.
+- In-order traversal: Shout when you cross the bottom.
+- Post-order traversal: Shout when you cross the right.
+
+Pre-order: print directory listing
+
+Post-order: for gathering file sizes.
+
+time: $$\theta(N)$$ Every node visited exactly once. Constant work pre visit.
+
+###### Level Order Traversal
+
+DBFACEG
+
+```java
+/*
+Iterative Deeping
+*/
+pubic void levelOrder(Tree T, Action toDo) {
+    for (int i = 0; i < T.height(); i++) {
+        visitLevel(T, i, toDO);
+    }
+}
+
+public void visitLevel(Tree T, int level, Action toDo) {
+    if (T == null) {
+        return;
+    }
+    if (level == 0) {
+        toDo.visit(T.key);
+    } else {
+        visitLevel(T.left(), level - 1, toDo);
+        visitLevel(T.right(), level - 1, toDo);
+    }
+}
+```
+
+time:
+
+- bushy trees: $$\theta(N)$$
+- spindly trees: $$\theta(N^2)$$ 
+
+###### Range Finding
+
+Geometric Search
+
+```java
+class rangeFind implements Action<String> {
+    private Label min, max;
+    public Set<Label> inRange;
+    public rangeFind(Label min, Label max) {
+        this.min = min;
+        this.max = max;
+        inRange = new HashSet<Label>();
+    }
+//just traversal of the whole tree    
+    void action(Tree<Label> T) {
+        if (T.label <= max && T.label >= min) {
+            inRange.add(T.label);
+        }
+    }
+}
+```
+
+**pruning**:  restricting our search to only nodes that might contain the answers we seek
+
+time: $$\theta(logN+R)$$ R is the number of matches
+
+*spatial trees: Quadtree
+
+###### Tree Iterators
+
+use list
+
+use stack: space saving
+
 ##### Hashing
 
 ###### binary representations DataIndexedSet
@@ -486,8 +608,6 @@ public interface MinPQ(Item) {
 }
 ```
 
-
-
 ###### heaps
 
 Binary min-heap: Binary tree that is **complete** and obeys **min-heap property**.
@@ -513,7 +633,133 @@ add $$\theta(logN)$$ getSmallest $$\theta(1)$$ removeSmallest $$\theta(logN)$$
 
 ##### Graph
 
+###### definition
 
+- Graph:
+  - Set of **vertices**, a.k.a. **nodes**.
+  - Set of **edges**: Pairs of vertices. Vertices with an edge between are **adjacent**.
+  - Optional: Vertices or edges may have **labels** (or **weights**).
+- A **path** is a sequence of vertices connected by edges.
+- A **cycle** is a path whose first and last vertices are the same.
+  - A graph with a cycle is ‘cyclic’.
+- Two vertices are **connected** if there is a path between them. If all vertices are connected, we say the graph is connected.
+
+###### Representations
+
+*degree is different from edges
+
+- Adjacency Matrix
+  - printing runtime: $$\theta(V^2)$$
+- Edge Set: collection of all edges
+  - Example: ```HashSet<Edge>```
+- Adjacency lists
+  - maintain array of lists indexed by vertex number
+  - runtime: 
+    - best: $$\theta(V)$$
+    - worst: $$\theta(V^2)$$
+    - all: $$theta(V+E)$$
+
+###### Depth-Frist traversal
+
+- Mark vertex v
+- Recursive visit all  unmarked vertices adjacent to v
+
+```java
+public class DepthFirstPaths {
+    private boolean[] marked;
+    private int[] edgeTo;
+    private int s;
+    
+    public DepthFirstPaths(Graph G, int s) {
+        ...
+        dfs(G, s);
+    }
+    
+    private void dfs(Graph G, int v) {
+        marked[v] = true;
+        for (int w : G.adj(v)) {
+            if (!marked[w]) {
+                edgeTo[w] = v;
+                dfs(G, w);
+            }
+        }
+    }
+}
+```
+
+- Guaranteed to reach every node
+- Runs in $$\theta(V+E)$$
+- space is $$\theta(V)$$
+
+###### Topological Sorting
+
+- DFS post order in a list
+- Topological ordering is given by the reverse of that list
+
+```java
+public class DepthFirstOrder {
+    private boolean[] marked;
+    private Stack<Integer> reversePostorder;
+    public DepthFirstOrder(Digraph G) {
+        reversePostorder = new Stack<Integer>();
+        marked = new boolean[G.V()];
+        for (int v; v < G.V(); v++) {
+            if (!marked(v)) {
+                dfs(G, v);
+            }
+        }
+    }
+    
+    private void dfs(Digraph G, int v) {
+        marked[v] = true;
+        for (int w : G.adj(v)) {
+            if (!marked[w]) {
+                dfs(G, w);
+            }
+            reversePostorder.push(v);
+        }
+    }
+    
+    public Iterable<Integer> reversePostorder() {
+        return reversePostorder();
+    }
+}
+```
+
+###### Breadth First Search
+
+- Initialize a queue with a starting vertex s and mark that vertex.
+  - Let’s call this the **fringe**.
+- Repeat until queue is empty:
+  - Remove vertex v from queue.
+  - Add to the queue any unmarked vertices adjacent to v and mark them.
+
+```java
+public class BreadthFirstPaths {
+    private boolean[] marked;
+    private int[] edgeTo;
+    ...
+    
+    private void bfs(Graph G, int s) {
+        Queue<Integer> fringe = new Queue<Integer>();
+        fringe.enqueue(s);
+        marked[s] = true;
+        while (!fringe.isEmpty()) {
+            int v = fringe.dequeue();
+            for (int w : G.adj(v)) {
+                if (!marked[w]) {
+                    fringe.enqueue(w);
+                    marked[w] = true;
+                    edgeTo[w] = v;
+                }
+            }
+        }
+    }
+}
+```
+
+- Runs in $$\theta(V+E)$$ time
+- use $$\theta(V)$$ 
 
 ###### Shortest paths
 
