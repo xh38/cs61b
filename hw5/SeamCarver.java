@@ -140,9 +140,11 @@ public class SeamCarver {
             double min3 = Double.MAX_VALUE;
             int temp = index;
             for (int j = index - 1; j <= index + 1; j++) {
-                if (min3 > sum_energy[j][i]) {
-                    min3 = sum_energy[j][i];
-                    temp = j;
+                if (j > -1 && j < width) {
+                    if (min3 > sum_energy[j][i]) {
+                        min3 = sum_energy[j][i];
+                        temp = j;
+                    }
                 }
             }
             index = temp;
