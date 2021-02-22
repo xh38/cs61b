@@ -5,8 +5,9 @@ import java.awt.Color;
 public class SeamCarver {
     private Picture pic;
     private int width, height;
+
     public SeamCarver(Picture picture) {
-        pic = picture;
+        pic = new Picture(picture);
         width = picture.width();
         height = picture.height();
     }
@@ -76,41 +77,10 @@ public class SeamCarver {
     }
 
     public int[] findVerticalSeam() {
-//        int[][] path = new int[width][height];
-//        int[] sumenergy = new int[width];
-//        for (int i = 0; i < width; i++) {
-//            path[i][height - 1] = i;
-//            sumenergy[i] += energy(i, height - 1);
-//        }
-//        for (int i = height - 2; i > -1; i--) {
-//            for (int j = 0; j < width; j++) {
-//                double min1 = Double.MAX_VALUE;
-//                for (int k = path[j][i + 1] - 1; k <= path[j][i + 1] + 1; k++) {
-//                    if (k > -1 && k < width) {
-//                        if (min1 > energy(k, i)) {
-//                            min1 = energy(k, i);
-//                            path[j][i] = k;
-//                        }
-//                    }
-//                }
-//                sumenergy[j] += min1;
-//            }
-//        }
-//        int min_index = 0;
-//        double min2 = Double.MAX_VALUE;
-//        for (int i = 0; i < width; i++) {
-//            if (min2 > sumenergy[i]) {
-//                min_index = i;
-//                min2 = sumenergy[i];
-//            }
-//        }
-//
-//        return path[min_index];
-
-        double[][] sum_energy = new double[width][height];
+        double[][] sumenergy = new double[width][height];
 
         for (int i = 0; i < width; i++) {
-            sum_energy[i][0] = energy(i, 0);
+            sumenergy[i][0] = energy(i, 0);
         }
 
         for (int i = 1; i < height; i++) {
@@ -118,19 +88,19 @@ public class SeamCarver {
                 double min1 = Double.MAX_VALUE;
                 for (int k = j - 1; k <= j + 1; k++) {
                     if (k > -1 && k < width) {
-                        if (min1 > sum_energy[k][i - 1]) {
-                            min1 = sum_energy[k][i - 1];
+                        if (min1 > sumenergy[k][i - 1]) {
+                            min1 = sumenergy[k][i - 1];
                         }
                     }
-                    sum_energy[j][i] = min1 + energy(j, i);
+                    sumenergy[j][i] = min1 + energy(j, i);
                 }
             }
         }
         int index = 0;
         double min2 = Double.MAX_VALUE;
         for (int i = 0; i < width; i++) {
-            if (sum_energy[i][height - 1] < min2) {
-                min2 = sum_energy[i][height - 1];
+            if (sumenergy[i][height - 1] < min2) {
+                min2 = sumenergy[i][height - 1];
                 index = i;
             }
         }
@@ -141,8 +111,8 @@ public class SeamCarver {
             int temp = index;
             for (int j = index - 1; j <= index + 1; j++) {
                 if (j > -1 && j < width) {
-                    if (min3 > sum_energy[j][i]) {
-                        min3 = sum_energy[j][i];
+                    if (min3 > sumenergy[j][i]) {
+                        min3 = sumenergy[j][i];
                         temp = j;
                     }
                 }
@@ -198,5 +168,4 @@ public class SeamCarver {
         pic = temp;
         width--;
     }
-
 }
