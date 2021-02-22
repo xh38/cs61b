@@ -42,7 +42,9 @@ public class Plip extends Creature {
      *  that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        r = 99;
+        b = 76;
+        g = (int) (63 + 96 * energy);
         return color(r, g, b);
     }
 
@@ -55,11 +57,16 @@ public class Plip extends Creature {
      *  private static final variable. This is not required for this lab.
      */
     public void move() {
+        energy -= 0.15;
     }
 
 
     /** Plips gain 0.2 energy when staying due to photosynthesis. */
     public void stay() {
+        energy += 0.2;
+        if (energy > 2) {
+            energy = 2;
+        }
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
@@ -67,7 +74,8 @@ public class Plip extends Creature {
      *  Plip.
      */
     public Plip replicate() {
-        return this;
+        energy = energy * 0.5;
+        return new Plip(energy);
     }
 
     /** Plips take exactly the following actions based on NEIGHBORS:
@@ -81,7 +89,38 @@ public class Plip extends Creature {
      *  for an example to follow.
      */
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
-        return new Action(Action.ActionType.STAY);
+        boolean notempty = false;
+        boolean hasclorus = false;
+        List<Direction> empty = getNeighborsOfType(neighbors, "empty");
+        List<Direction> clorus = getNeighborsOfType(neighbors, "clorus");
+        if (empty.isEmpty()) {
+            notempty = true;
+        }
+        if (!clorus.isEmpty()) {
+            hasclorus = true;
+        }
+
+        Direction movdir = Direction.LEFT;
+        if (empty.size() == 1) {
+            movdir = empty.get(0);
+        } else if (empty.size() > 1) {
+            movdir = HugLifeUtils.randomEntry(empty);
+        }
+
+        if (notempty) {
+            return new Action(Action.ActionType.STAY);
+        } else if (energy >= 1) {
+            return new Action(Action.ActionType.REPLICATE, movdir);
+        } else if (hasclorus) {
+            double random = HugLifeUtils.random();
+            if (random <= 0.5) {
+                return new Action(Action.ActionType.MOVE, movdir);
+            } else {
+                return new Action(Action.ActionType.STAY);
+            }
+        } else {
+            return new Action(Action.ActionType.STAY);
+        }
     }
 
 }
