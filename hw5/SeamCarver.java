@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.Picture;
 import java.awt.Color;
-import java.lang.IllegalArgumentException;
 
 
 public class SeamCarver {
@@ -13,7 +12,7 @@ public class SeamCarver {
     }
 
     public Picture picture() {
-        return pic;
+        return new Picture(pic);
     }
 
     public int width() {
@@ -72,34 +71,64 @@ public class SeamCarver {
             }
         }
         SeamCarver sc = new SeamCarver(newpic);
-        int[] Hseam = sc.findVerticalSeam();
-        return Hseam;
+        int[] hseam = sc.findVerticalSeam();
+        return hseam;
     }
 
     public int[] findVerticalSeam() {
-        int[] Vseam = new int[height];
+        int[] vseam = new int[height];
         double min1 = Double.MAX_VALUE;
 
         for (int i = 0; i < width; i++) {
             if (energy(i, 0) < min1) {
-                Vseam[0] = i;
+                vseam[0] = i;
                 min1 = energy(i, 0);
             }
         }
 
         for (int i = 1; i < height; i++) {
-            int j = Vseam[i - 1];
+            int j = vseam[i - 1];
             double min2 = Double.MAX_VALUE;
             for (int k = j - 1; k <= j + 1; k++) {
-                if(k > -1 && k < width) {
+                if (k > -1 && k < width) {
                     if (energy(k, i) < min2) {
-                        Vseam[i] = k;
+                        vseam[i] = k;
                         min2 = energy(k, i);
                     }
                 }
             }
         }
-        return Vseam;
+        return vseam;
+//        int[][] path = new int[width][height];
+//        int[] sumenergy = new int[width];
+//        for (int i = 0; i < width; i++) {
+//            path[i][height - 1] = i;
+//            sumenergy[i] += energy(i, height - 1);
+//        }
+//        for (int i = height - 2; i > -1; i--) {
+//            for (int j = 0; j < width; j++) {
+//                double min1 = Double.MAX_VALUE;
+//                for (int k = path[j][i + 1] - 1; k <= path[j][i + 1] + 1; k++) {
+//                    if (k > -1 && k < width) {
+//                        if (min1 > energy(k, i)) {
+//                            min1 = energy(k, i);
+//                            path[j][i] = k;
+//                        }
+//                    }
+//                }
+//                sumenergy[j] += min1;
+//            }
+//        }
+//        int min_index = 0;
+//        double min2 = Double.MAX_VALUE;
+//        for (int i = 0; i < width; i++) {
+//            if (min2 > sumenergy[i]) {
+//                min_index = i;
+//                min2 = sumenergy[i];
+//            }
+//        }
+//
+//        return path[min_index];
     }
 
     public void removeHorizontalSeam(int[] seam) {
