@@ -76,29 +76,6 @@ public class SeamCarver {
     }
 
     public int[] findVerticalSeam() {
-        int[] vseam = new int[height];
-        double min1 = Double.MAX_VALUE;
-
-        for (int i = 0; i < width; i++) {
-            if (energy(i, 0) < min1) {
-                vseam[0] = i;
-                min1 = energy(i, 0);
-            }
-        }
-
-        for (int i = 1; i < height; i++) {
-            int j = vseam[i - 1];
-            double min2 = Double.MAX_VALUE;
-            for (int k = j - 1; k <= j + 1; k++) {
-                if (k > -1 && k < width) {
-                    if (energy(k, i) < min2) {
-                        vseam[i] = k;
-                        min2 = energy(k, i);
-                    }
-                }
-            }
-        }
-        return vseam;
 //        int[][] path = new int[width][height];
 //        int[] sumenergy = new int[width];
 //        for (int i = 0; i < width; i++) {
@@ -129,6 +106,49 @@ public class SeamCarver {
 //        }
 //
 //        return path[min_index];
+
+        double[][] sum_energy = new double[width][height];
+
+        for (int i = 0; i < width; i++) {
+            sum_energy[i][0] = energy(i, 0);
+        }
+
+        for (int i = 1; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                double min1 = Double.MAX_VALUE;
+                for (int k = j - 1; k <= j + 1; k++) {
+                    if (k > -1 && k < width) {
+                        if (min1 > sum_energy[k][i - 1]) {
+                            min1 = sum_energy[k][i - 1];
+                        }
+                    }
+                    sum_energy[j][i] = min1 + energy(j, i);
+                }
+            }
+        }
+        int index = 0;
+        double min2 = Double.MAX_VALUE;
+        for (int i = 0; i < width; i++) {
+            if (sum_energy[i][height - 1] < min2) {
+                min2 = sum_energy[i][height - 1];
+                index = i;
+            }
+        }
+        int[] vseam = new int[height];
+        vseam[height - 1] = index;
+        for (int i = height - 2; i > -1; i--) {
+            double min3 = Double.MAX_VALUE;
+            int temp = index;
+            for (int j = index - 1; j <= index + 1; j++) {
+                if (min3 > sum_energy[j][i]) {
+                    min3 = sum_energy[j][i];
+                    temp = j;
+                }
+            }
+            index = temp;
+            vseam[i] = index;
+        }
+        return vseam;
     }
 
     public void removeHorizontalSeam(int[] seam) {
@@ -176,4 +196,5 @@ public class SeamCarver {
         pic = temp;
         width--;
     }
+
 }
